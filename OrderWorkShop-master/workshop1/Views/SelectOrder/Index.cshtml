@@ -47,19 +47,7 @@
 <br><br>
 <div id="index_grid"></div>
 <script type="text/javascript">
-    function del(orderid) {
-        $.ajax({
-            type: 'Post',
-            url: '/SelectOrder/Del',
-            data: { 'orderid': orderid },
-            dataType: 'json',
-            success: function (response) {
-                alert(response);
-            }, error: function (error) {
-
-            }
-        });
-    };
+  
     $(document).ready(function () {
         $('#index_grid').attr('height', '100%');
         $('#OrderID').kendoNumericTextBox({
