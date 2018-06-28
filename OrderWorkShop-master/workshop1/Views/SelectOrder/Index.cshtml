@@ -1,0 +1,140 @@
+﻿@model Workshop1.Models.Index
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form id="index_form">0
+    <table>
+        <tr>
+            <td>@Html.LabelFor(model => model.OrderID)</td>
+            <td>@Html.TextBoxFor(model => model.OrderID, new { htmlAttributes = new { @class = "form-control", type = "number" } })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.CompanyName)</td>
+            <td>@Html.TextBoxFor(model => model.CompanyName, new { @class = "k-textbox" })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.EmployeeId)</td>
+            <td>@Html.DropDownListFor(model => model.EmployeeId, (List<SelectListItem>)ViewBag.employeelist, "請選擇...", new { @class = "kendoDropDownList" })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.ShippersId)</td>
+            <td>@Html.DropDownListFor(model => model.ShippersId, (List<SelectListItem>)ViewBag.shipperslist, "請選擇...", new { @class = "kendoDropDownList" })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.OrderDate)</td>
+            <td>@Html.TextBoxFor(model => model.OrderDate, new { type = "date", @class = "form-control kendoDatePicker" })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.RequiredDate)</td>
+            <td>@Html.TextBoxFor(model => model.RequiredDate, new { type = "date", @class = "form-control kendoDatePicker" })</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.ShipperDate)</td>
+            <td>@Html.TextBoxFor(model => model.ShipperDate, new { type = "date", @class = "form-control kendoDatePicker" })</td>
+        </tr>
+    </table>
+    <a class="k-button" id="index_submit">
+        <span class="k-icon k-i-search"></span> 查詢
+    </a>
+    <a class="k-button" id="index_reset">
+        <span class="k-icon k-i-x"></span>清除
+    </a>
+    <a class="k-button" id="index_add" onclick="location.href='@Url.Action("InsertOrder", "SelectOrder")';return false;">
+        <span class="k-icon k-i-add"></span> 新增訂單
+    </a>
+</form>
+<br><br>
+<div id="index_grid"></div>
+<script type="text/javascript">
+    function del(orderid) {
+        $.ajax({
+            type: 'Post',
+            url: '/SelectOrder/Del',
+            data: { 'orderid': orderid },
+            dataType: 'json',
+            success: function (response) {
+                alert(response);
+            }, error: function (error) {
+
+            }
+        });
+    };
+    $(document).ready(function () {
+        $('#index_grid').attr('height', '100%');
+        $('#OrderID').kendoNumericTextBox({
+            min: 1
+        });
+        $('.kendoDropDownList').kendoDropDownList();
+        $('.kendoDatePicker').kendoDatePicker();
+        $('#index_reset').click(function () {
+            document.getElementById('index_form').reset();
+        })
+        $('#index_submit').on('click', function (e) {
+            console.log($("form").serializeArray());
+            e.preventDefault();
+            $.ajax({
+                type: 'Post',
+                url: '/SelectOrder/SelectList',
+                data: $("form").serializeArray(),
+                dataType: 'json',
+                success: function (response) {
+                    $("#index_grid").kendoGrid({
+                        dataSource: {
+                            data: response,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        OrderID: { type: "int" },
+                                        CompanyName: { type: "string" },
+                                        OrderDate: { type: "date" },
+                                        ShipperDate: { type: "date" }
+                                    }
+                                }
+                            },
+                            pageSize: 10
+                        },
+                        editable: true,
+                        editable: "inline",
+                        height: 500,
+                        scrollable: true,
+                        sortable: true,
+                        selectable: true,
+                        filterable: true,
+                        pageable: true,
+                        columns: [
+                            {
+                                field: "OrderID",
+                                title: "OrderID",
+                            },
+                            {
+                                field: "CompanyName",
+                                title: "CompanyName"
+                            },
+                            {
+                                field: "OrderDate",
+                                title: "OrderDate",
+                                template: '#= kendo.toString(OrderDate,"yyyy/MM/dd") #'
+                            },
+                            {
+                                field: "ShipperDate",
+                                title: "ShipperDate", 
+                                template: "# if (ShipperDate == null) { ## }" +
+                                            "else { #" +
+                                            "#= kendo.toString(ShipperDate,'yyyy/MM/dd') #" +
+                                            "# } #"
+                            },
+                            {
+                                template: '<a class="k-button" id="index_update_orderid" href="/SelectOrder/Update?orderID=' + '#= kendo.toString(OrderID) #' + '"><span class="k-icon k-i-reset"></span>修改</a>' +
+                                    '<a class="k-button" id="index_delete_orderid" onclick = del("#= kendo.toString(OrderID) #")><span class="k-icon k-i-delete"></span>刪除</a>'
+                            }
+                        ]
+                    }).data("kendoGrid");
+                },
+                error: function (error) {
+
+                }
+            });
+        })
+    })
+</script>

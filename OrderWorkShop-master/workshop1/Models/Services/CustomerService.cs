@@ -1,37 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using workshop1.Daos;
+using System.Web.Mvc;
+using Workshop1.Dao;
 
-namespace workshop1.Models.Services
+
+namespace Workshop1.Models.Services
 {
     public class CustomerService
     {
         /// <summary>
-        /// 取得 CompnanyName by customerID
-        /// </summary>
-        /// <param name="customerID">客戶編號</param>
-        /// <returns></returns>
-        public string GetCompanyName(int customerID)
-        {
-            CustomersDao dao = new CustomersDao();
-
-            List<Customer> customers =  dao.GetAllCustomers(); ;
-            Customer customer = customers.SingleOrDefault(m => m.CustomerID == customerID);
-
-            return (customer != null) ? customer.CompanyName : null;
-        }
-
-        /// <summary>
-        /// 取得所有客戶資料
+        /// customer下拉式選單
         /// </summary>
         /// <returns></returns>
-        public IList<Customer> GetCustomers()
+        public List<SelectListItem> GetCustomerList()
         {
-            CustomersDao dao = new CustomersDao();
-
-            return dao.GetAllCustomers(); ;
+            CustomerDao customerDao = new CustomerDao();
+            return customerDao.GetCustomerList();
         }
     }
 }

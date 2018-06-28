@@ -9,19 +9,16 @@ using Workshop1.Dao;
 
 namespace Workshop1.Models.Services
 {
-    /// <summary>
-    /// new employee 假資料
-    /// </summary>
-    public class EmployeeService
+    public class ShippersService
     {
         /// <summary>
-        /// employee下拉式選單
+        /// shipper 下拉式選單
         /// </summary>
         /// <returns></returns>
-        public List<SelectListItem> GetEmpName()
+        public List<SelectListItem> GetShipper()
         {
-            EmployeeDao employeeDao = new EmployeeDao();
-            return employeeDao.GetEmpName();
+            ShipperDao shipperDao = new ShipperDao();
+            return shipperDao.GetShipper();
         }
     }
 }

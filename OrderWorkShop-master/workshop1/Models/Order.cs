@@ -1,72 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace workshop1.Models
+namespace Workshop1.Models
 {
     public class Order
     {
         /// <summary>
-        /// 訂單詳細資料
+        /// 訂單detail
         /// </summary>
-        public List<OrderDetail> Details { get; set; }
-
+        /// 
+        public List<OrderDetail> OrderDetails { get; set; }
         /// <summary>
-        /// 訂單ID
+        /// 訂單編號
         /// </summary>
+        ///
         public int OrderID { get; set; }
-
-        [Display(Name="客戶名稱")]
+        /// <summary>
+        /// 客戶編號
+        /// </summary>
+        /// 
         [Required]
-        public int CustomerID { get; set; }
-
-        [Display(Name = "負責員工名稱")]
+        [DisplayName("客戶名稱")]
+        public int? CustomerID { get; set; }
+        /// <summary>
+        /// 員工編號
+        /// </summary>
+        /// 
         [Required]
-        public int EmployeeID { get; set; }
-
-        [Display(Name ="訂單日期")]
-        [DataType(DataType.Date)]
+        [DisplayName("員工姓名")]
+        public int? EmployeeID { get; set; }
+        /// <summary>
+        /// 訂單日期
+        /// </summary>
+        /// 
         [Required]
-        public DateTime OrderDate { get; set; }
-
-        [Display(Name = "需要日期")]
+        [DisplayName("訂單日期")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? OrderDate { get; set; }
+        /// <summary>
+        /// 需要日期
+        /// </summary>
+        ///
         [Required]
-        public DateTime RequiredDate { get; set; }
-
-        [Display(Name = "出貨日期")]
-        public DateTime? ShippedDate { get; set; }
-
-        [Display(Name = "出貨公司")]
+        [DisplayName("需要日期")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? RequiredDate { get; set; }
+        /// <summary>
+        /// 發貨日期
+        /// </summary>
+        /// 
+        [DisplayName("發貨日期")]
+        public DateTime? ShipperDate { get; set; }
+        /// <summary>
+        /// 發貨編號
+        /// </summary>
+        /// 
         [Required]
+        [DisplayName("發貨公司")]
         public int? ShipperID { get; set; }
-
-        [Display(Name = "運費")]
+        /// <summary>
+        /// 運費
+        /// </summary>
+        /// 
         [Required]
+        [Range(0,10000)]
+        [DisplayName("運費")]
         public decimal? Freight { get; set; }
-
-        [Display(Name = "出貨國家")]
-        [MaxLength(15, ErrorMessage = "字數長度不可超過{1}")]
+        /// <summary>
+        /// 出貨名稱
+        /// </summary>
+        /// 
         [Required]
-        public string ShipCountry { get; set; }
-
-        [Display(Name = "出貨城市")]
-        [MaxLength(15, ErrorMessage = "字數長度不可超過{1}")]
+        [DisplayName("出貨說明")]
+        public string ShipName { get; set; }
+        /// <summary>
+        /// 發貨地址
+        /// </summary>
+        /// 
         [Required]
-        public string ShipCity { get; set; }
-
-        [Display(Name = "出貨地區")]
-        [MaxLength(15, ErrorMessage = "字數長度不可超過{1}")]
-        public string ShipRegion { get; set; }
-
-        [Display(Name = "郵遞區號")]
-        [MaxLength(10, ErrorMessage = "字數長度不可超過{1}")]
-        public string ShipPostalCode { get; set; }
-
-        [Display(Name = "出貨地址")]
-        [MaxLength(60, ErrorMessage ="字數長度不可超過{1}")]
-        [Required]
+        [DisplayName("發貨地址")]
         public string ShipAddress { get; set; }
+        /// <summary>
+        /// 發貨城市
+        /// </summary>
+        /// 
+        [Required]
+        [DisplayName("發貨城市")]
+        public string ShipCity { get; set; }
+        /// <summary>
+        /// 發貨地區
+        /// </summary>
+        ///
+        [DisplayName("發貨地區")]
+        public string ShipRegion { get; set; }
+        /// <summary>
+        /// 郵遞區號
+        /// </summary>
+        /// 
+        [DisplayName("郵遞區號")]
+        public string ShipPostalCode { get; set; }
+        /// <summary>
+        /// 發貨國家
+        /// </summary>
+        /// 
+        [Required]
+        //[StringLength(8, ErrorMessage = "字串最多輸入8個字")]
+        [DisplayName("發貨國家")]
+        public string ShipCountry { get; set; }
     }
 }

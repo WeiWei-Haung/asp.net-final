@@ -5,27 +5,22 @@ using System.Web;
 
 namespace Workshop1.Models
 {
-    public class Customer
+    public class Shippers
     {
         /// <summary>
-        /// 客戶編號
+        /// 發貨人編號
         /// </summary>
         ///
-        public int CustomerID { get; set; }
+        public int ShipperID { get; set; }
         /// <summary>
-        /// 客戶名稱
+        /// 出貨公司
         /// </summary>
         /// 
         public string CompanyName { get; set; }
         /// <summary>
-        /// 聯繫人姓名
+        /// 電話
         /// </summary>
         /// 
-        public string ContactName { get; set; }
-        /// <summary>
-        /// 地址
-        /// </summary>
-        /// 
-        public string Address { get; set; }
+        public string Phone { get; set; }
     }
 }

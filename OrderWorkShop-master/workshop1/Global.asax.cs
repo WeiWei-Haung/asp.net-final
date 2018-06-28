@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace workshop1
+namespace Workshop1
 {
     public class MvcApplication : System.Web.HttpApplication
     {
